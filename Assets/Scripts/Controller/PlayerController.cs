@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Photon.Pun;
 
-public class PlayerController : MonoBehaviour, IPunObservable
+public class PlayerController : MonoBehaviour
 {
     [Header("Player Attributes")]
     [SerializeField] private float speed;
@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour, IPunObservable
             Destroy(GetComponent<PlayerInput>());
             Destroy(GetComponent<CapsuleCollider>());
             Destroy(rigidBody);
-            Destroy(playerCam);
+            playerCam.enabled = false;
         }
         else
         {
@@ -111,12 +111,6 @@ public class PlayerController : MonoBehaviour, IPunObservable
             rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        throw new System.NotImplementedException();
-    }
-
 
     #region Inputs
 
