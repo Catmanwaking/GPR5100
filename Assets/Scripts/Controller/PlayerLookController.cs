@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-class PlayerController : MonoBehaviour
+class PlayerLookController : MonoBehaviour
 {
     [Header("PlayerOwned")]
     [SerializeField] private float lookSensitivity;
