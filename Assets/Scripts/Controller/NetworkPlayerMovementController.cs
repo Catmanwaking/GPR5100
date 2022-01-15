@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Unity.Netcode;
+using Photon.Pun;
 
-public class NetworkPlayerMovementController : NetworkBehaviour
+public class NetworkPlayerMovementController : MonoBehaviour, IPunObservable
 {
     [Header("Player Attributes")]
     [SerializeField] private float speed;
@@ -15,15 +15,30 @@ public class NetworkPlayerMovementController : NetworkBehaviour
     private bool isGrounded;
     private Vector2 moveInput;
     private Rigidbody rigidBody;
+    private PhotonView view;
 
     private void Awake()
     {
         rigidBody = GetComponent<Rigidbody>();
+        view = GetComponent<PhotonView>();
+    }
+
+    private void Start()
+    {
+        if(!view.IsMine)
+        {
+            //delete things 
+        }
+        else
+        {
+            //add things
+        }
     }
 
     private void FixedUpdate()
     {
-        isGrounded = CheckGround();
+        if(view.IsMine)
+            isGrounded = CheckGround();
         ApplyMovement();
     }
 
@@ -64,32 +79,23 @@ public class NetworkPlayerMovementController : NetworkBehaviour
         return Physics.OverlapSphere(groundCheckTransform.position, groundCheckRadius, groundLayer).Length > 0;
     }
 
-    [ServerRpc]
-    public void MoveOnServerRpc(Vector2 remoteMoveInput)
-    {
-        moveInput = remoteMoveInput;
-    }
-
-    [ServerRpc]
-    public void JumpOnServerRpc()
-    {
-        ApplyJump();
-    }
-
     private void OnMove(InputValue value)
     {
         moveInput = value.Get<Vector2>();
-        MoveOnServerRpc(moveInput);
     }
 
     private void OnJump()
     {
-        JumpOnServerRpc();
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawSphere(groundCheckTransform.position, groundCheckRadius);
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        throw new System.NotImplementedException();
     }
 }
