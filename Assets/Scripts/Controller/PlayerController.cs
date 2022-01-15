@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Photon.Pun;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviourPun
 {
     [Header("Player Attributes")]
     [SerializeField] private float speed;
@@ -24,17 +24,15 @@ public class PlayerController : MonoBehaviour
     private Vector3 playerRot;
 
     private Rigidbody rigidBody;
-    private PhotonView view;
 
     private void Awake()
     {
-        view = GetComponent<PhotonView>();
         rigidBody = GetComponent<Rigidbody>();
     }
 
     void Start()
     {
-        if (!view.IsMine)
+        if (!photonView.IsMine)
         {
             Destroy(GetComponent<PlayerInput>());
             Destroy(GetComponent<CapsuleCollider>());
@@ -49,7 +47,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if(view.IsMine)
+        if(photonView.IsMine)
         {
             ApplyRotation();
         }
@@ -57,7 +55,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (view.IsMine)
+        if (photonView.IsMine)
         {
             isGrounded = CheckGround();
             ApplyMovement();
