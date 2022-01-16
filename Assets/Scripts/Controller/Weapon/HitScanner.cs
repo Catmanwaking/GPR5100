@@ -37,7 +37,7 @@ class HitScanner : WeaponController
             if (Physics.Raycast(shotOrigin.position, shotDirection, out RaycastHit hit, range, hitLayers, QueryTriggerInteraction.Ignore))
             {
                 PlayParticleSystem(hit);
-                if (hit.collider.CompareTag("Enemy"))
+                if (hit.collider.CompareTag("Player"))
                 {
                     PlayerHealth enemy = hit.collider.GetComponent/*InParent*/<PlayerHealth>();
                     enemy.TakeDamage(damage);

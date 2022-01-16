@@ -29,8 +29,7 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
         health -= damage;
         if (health <= 0.0f)
             health = 0.0f;
-
-        OnHealthChanged?.Invoke(health);
+       
         playerHashTable["health"] = health;
         photonView.Controller.SetCustomProperties(playerHashTable);
     }
@@ -40,6 +39,7 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
         if (photonView.Controller == targetPlayer)
         {
             playerHashTable = changedProps;
+            OnHealthChanged?.Invoke((float)playerHashTable["health"]);
         }
     }
 }
