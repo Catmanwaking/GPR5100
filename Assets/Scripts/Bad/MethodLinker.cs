@@ -1,12 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
 
+//please teach us how to not do this
 public class MethodLinker : MonoBehaviour
 {
-    public static MethodLinker Instance;
-    //please teach us how to not do this
+    public static MethodLinker Instance { get; private set; }
 
     private void Awake()
     {

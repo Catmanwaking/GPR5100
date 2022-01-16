@@ -85,10 +85,10 @@ public class PlayerMovementController : MonoBehaviourPun
 
     private void ApplyRotation()
     {
-        playerRot.y += lookInput.x * lookSensitivity;
+        playerRot.y += lookInput.x * StaticData.Sensitivity;
         transform.rotation = Quaternion.Euler(playerRot);
 
-        camRot.x -= lookInput.y * lookSensitivity;
+        camRot.x -= lookInput.y * StaticData.Sensitivity;
         camRot.x = Mathf.Clamp(camRot.x, -85.0f, 85.0f);
         playerCam.transform.localRotation = Quaternion.Euler(camRot);
     }
