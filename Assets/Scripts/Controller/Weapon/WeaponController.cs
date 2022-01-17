@@ -61,7 +61,6 @@ public abstract class WeaponController : MonoBehaviourPun
         {
             isFiring = false;
             canFire = true;
-            deviation.ResetDeviation();
             currentAmmo = ammoCapacity;
             fireRate = 1 / shotsPerSecond;
             fireHash = Animator.StringToHash("Fire");
@@ -70,6 +69,8 @@ public abstract class WeaponController : MonoBehaviourPun
             OnAmmoChange?.Invoke(currentAmmo);
 
             MethodLinker.Instance.LinkToHudAmmo(ref OnAmmoChange);
+            MethodLinker.Instance.LinkToHudCrosshair(ref deviation.OnDeviationChange);
+            deviation.ResetDeviation();
         }
     }
 
@@ -91,13 +92,10 @@ public abstract class WeaponController : MonoBehaviourPun
         {
             if (currentAmmo <= 0)
                 return;
-            animator.SetBool(fireHash, true);           
+            animator.SetTrigger(fireHash);
             Shoot();
+            photonView.RPC("ShootRpc", RpcTarget.Others);
             OnAmmoChange?.Invoke(currentAmmo);
-        }
-        else
-        {
-            animator.SetBool(fireHash, false);
         }
     }
 
@@ -117,7 +115,7 @@ public abstract class WeaponController : MonoBehaviourPun
 
     #region Inputs
 
-    public void OnFire(InputValue value)
+    private void OnFire(InputValue value)
     {       
         isFiring = value.Get<float>() == 1.0f && (Time.time > nextShotTime || isAutoFire);
     }
@@ -128,6 +126,13 @@ public abstract class WeaponController : MonoBehaviourPun
     /// Applies shot logic.
     /// </summary>
     protected abstract void Shoot();
+
+    [PunRPC]
+    private void ShootRpc()
+    {
+        RandomMuzzleRotation();
+        animator.SetTrigger(fireHash);
+    }
 
     private void OnDrawGizmos()
     {

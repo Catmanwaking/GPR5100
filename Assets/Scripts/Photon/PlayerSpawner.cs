@@ -1,17 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using System;
 
-public class PlayerSpawner : MonoBehaviour
+[Serializable]
+public class PlayerSpawner
 {
     [SerializeField] private GameObject playerPrefab;
 
     [SerializeField] private Transform[] spawnPositions;
 
-    private void Start()
+    public GameObject SpawnPlayerOnServer()
     {
-        //TODO spawnPosition logic
-        PhotonNetwork.Instantiate(playerPrefab.name, spawnPositions[0].position, spawnPositions[0].rotation);
+        return PhotonNetwork.Instantiate(playerPrefab.name, Vector3.zero, Quaternion.identity);
+    }
+
+    public void RespawnPlayer(GameObject player)
+    {
+        int spawnIndex = UnityEngine.Random.Range(0, spawnPositions.Length);
+        player.transform.position = spawnPositions[spawnIndex].position;
+        player.transform.rotation = spawnPositions[spawnIndex].rotation;
+        player.SetActive(true);
     }
 }

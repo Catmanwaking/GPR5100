@@ -3,6 +3,9 @@ using UnityEngine;
 //please teach us how to not do this
 public class MethodLinker : MonoBehaviour
 {
+    [SerializeField] private HUDManager hud;
+    [SerializeField] private PauseMenuUI menu;
+
     public static MethodLinker Instance { get; private set; }
 
     private void Awake()
@@ -13,7 +16,6 @@ public class MethodLinker : MonoBehaviour
             Instance = this;
     }
 
-    [SerializeField] private HUDManager hud;
 
     public void LinkToHudAmmo(ref System.Action<int> action)
     {
@@ -23,5 +25,10 @@ public class MethodLinker : MonoBehaviour
     public void LinkToHudHealth(ref System.Action<float> action)
     {
         action += hud.SetHealth;
+    }
+
+    public void LinkToHudCrosshair(ref System.Action<float> action)
+    {
+        action += hud.SetDeviation;
     }
 }

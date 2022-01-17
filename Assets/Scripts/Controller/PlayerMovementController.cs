@@ -112,7 +112,7 @@ public class PlayerMovementController : MonoBehaviourPun
         moveInput = value.Get<Vector2>();
     }
 
-    public void OnLook(InputValue value)
+    private void OnLook(InputValue value)
     {
         lookInput = value.Get<Vector2>();
     }

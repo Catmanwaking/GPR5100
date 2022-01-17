@@ -1,17 +1,14 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class MainMenuUI : MonoBehaviour
+public class OptionsMenuUI : MonoBehaviour
 {
-    [SerializeField] private GameObject MainMenuGO;
-    [SerializeField] private GameObject OptionsGO;
-
     [SerializeField] private Slider masterVolume_Slider;
     [SerializeField] private Slider musicVolume_Slider;
     [SerializeField] private Slider SFXVolume_Slider;
     [SerializeField] private Slider Sensitivity_Slider;
 
-    private void Start()
+    private void OnEnable()
     {
         LoadOptionMenuValues();
     }
@@ -22,21 +19,6 @@ public class MainMenuUI : MonoBehaviour
         musicVolume_Slider.value = AudioManager.Instance.MusicVolume;
         SFXVolume_Slider.value = AudioManager.Instance.SFXVolume;
         Sensitivity_Slider.value = StaticData.Sensitivity;
-    }
-
-    public void ToggleOptionsMenu()
-    {
-        bool state = MainMenuGO.activeInHierarchy;
-        MainMenuGO.SetActive(!state);
-        OptionsGO.SetActive(state);
-    }
-
-    public void ExitGame()
-    {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#endif
-        Application.Quit();
     }
 
     public void MasterVolumeChanged(float value)

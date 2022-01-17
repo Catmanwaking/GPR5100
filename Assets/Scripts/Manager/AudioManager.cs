@@ -16,6 +16,7 @@ public class AudioManager : MonoBehaviour
         mixer.SetFloat("MasterVol", Mathf.Log10(masterVolume) * 20);
         mixer.SetFloat("MusicVol", Mathf.Log10(musicVolume) * 20);
         mixer.SetFloat("SFXVol", Mathf.Log10(sfxVolume) * 20);
+        DontDestroyOnLoad(this.gameObject);
     }
 
     public float MasterVolume
