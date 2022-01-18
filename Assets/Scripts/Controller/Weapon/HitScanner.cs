@@ -39,7 +39,7 @@ class HitScanner : WeaponController
                 PlayParticleSystem(hit);
                 if (hit.collider.CompareTag("Player"))
                 {
-                    PlayerHealth enemy = hit.collider.GetComponent/*InParent*/<PlayerHealth>();
+                    PlayerHealth enemy = hit.collider.GetComponent<PlayerHealth>();
                     enemy.TakeDamage(damage);
                 }
             }
