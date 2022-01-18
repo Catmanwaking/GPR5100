@@ -1,9 +1,16 @@
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PauseController : MonoBehaviour
+public class PauseController : MonoBehaviourPun
 {
     [SerializeField] private PlayerInput playerInput;
+
+    private void Start()
+    {
+        if (!photonView.IsMine)
+            Destroy(this);
+    }
 
     private void Pause()
     {

@@ -57,13 +57,13 @@ public abstract class WeaponController : MonoBehaviourPun
 
     private void Start()
     {
+        fireHash = Animator.StringToHash("Fire");
         if(photonView.IsMine)
         {
             isFiring = false;
             canFire = true;
             currentAmmo = ammoCapacity;
             fireRate = 1 / shotsPerSecond;
-            fireHash = Animator.StringToHash("Fire");
 
             shotOrigin = GetComponentInParent<Camera>().transform;
             OnAmmoChange?.Invoke(currentAmmo);
