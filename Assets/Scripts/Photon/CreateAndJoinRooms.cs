@@ -42,7 +42,12 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
         PhotonNetwork.LoadLevel(2);
     }
 
-    public override void OnJoinRandomFailed(short returnCode, string message)
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        info_Text.text = message;
+    }
+
+    public override void OnCreateRoomFailed(short returnCode, string message)
     {
         info_Text.text = message;
     }
