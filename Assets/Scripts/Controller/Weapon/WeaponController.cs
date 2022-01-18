@@ -127,8 +127,7 @@ public abstract class WeaponController : MonoBehaviourPun
     /// </summary>
     protected abstract void Shoot();
 
-    [PunRPC]
-    private void ShootRpc()
+    public void ShootRpcLink()
     {
         RandomMuzzleRotation();
         animator.SetTrigger(fireHash);
