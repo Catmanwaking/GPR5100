@@ -40,7 +40,13 @@ class HitScanner : WeaponController
                 if (hit.collider.CompareTag("Player"))
                 {
                     PlayerHealth enemy = hit.collider.GetComponent<PlayerHealth>();
-                    enemy.TakeDamage(damage);
+                    if(enemy.TakeDamage(damage))
+                    {
+                        var props = photonView.Controller.CustomProperties;
+                        int kills = (int)props["Kills"];
+                        props["Kills"] = kills++;
+                        photonView.Controller.SetCustomProperties(props);
+                    }
                 }
             }
         }
