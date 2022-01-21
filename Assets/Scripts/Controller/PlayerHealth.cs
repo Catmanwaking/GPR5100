@@ -31,26 +31,22 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
         photonView.Controller.SetCustomProperties(playerHashTable);
     }
 
-    public bool TakeDamage(float damage)
+    public void TakeDamage(float damage)
     {
         if (isDead)
-            return false;
-        bool confirmedKill = false;
+            return;
         float health = (float)playerHashTable["Health"];
 
         health -= damage;
         if (health <= 0.0f)
         {
             health = 0.0f;
-            confirmedKill = true;
             isDead = true;
         }
 
-        playerHashTable = photonView.Controller.CustomProperties; //TODO check if needed
+        //playerHashTable = photonView.Controller.CustomProperties; //TODO check if needed
         playerHashTable["Health"] = health;
         photonView.Controller.SetCustomProperties(playerHashTable);
-
-        return confirmedKill;
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
@@ -64,8 +60,6 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
             if(health <= 0.0f)
             {
                 Debug.Log("player died");
-                int deaths = (int)playerHashTable["Deaths"];
-                playerHashTable["Deaths"] = deaths++;
                 playerHashTable["Health"] = 100.0f;
                 photonView.Controller.SetCustomProperties(playerHashTable);
                 OnDeath?.Invoke(this.gameObject);
