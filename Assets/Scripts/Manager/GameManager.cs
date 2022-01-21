@@ -57,6 +57,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void SetRespawnCam(bool isRespawning)
     {
         demoCameraGO.SetActive(isRespawning);
+        hudGO.SetActive(!isRespawning);
     }
     
     public void SetActiveOnServer(int viewID, bool active)
