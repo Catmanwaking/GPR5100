@@ -36,10 +36,13 @@ public class PlayerSpawner
     private IEnumerator RespawnPlayerDelayRoutine(GameObject player)
     {
         GameManager.Instance.SetRespawnCam(true);
+        int viewID = player.GetComponent<PhotonView>().ViewID;
+        GameManager.Instance.SetActiveOnServer(viewID, false);
         RespawnPlayer(player);
         player.SetActive(false);
         yield return new WaitForSecondsRealtime(respawnTime);
         player.SetActive(true);
+        GameManager.Instance.SetActiveOnServer(viewID, true);
         GameManager.Instance.SetRespawnCam(false);
     }
 }

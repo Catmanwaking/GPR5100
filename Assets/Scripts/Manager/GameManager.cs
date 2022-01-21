@@ -59,6 +59,17 @@ public class GameManager : MonoBehaviourPunCallbacks
         demoCameraGO.SetActive(isRespawning);
     }
     
+    public void SetActiveOnServer(int viewID, bool active)
+    {
+        photonView.RPC(nameof(SetActiveOnServerRpc), RpcTarget.Others, viewID, active);
+    }
+
+    [PunRPC]
+    public void SetActiveOnServerRpc(int viewID, bool active)
+    {
+        PhotonView.Find(viewID).gameObject.SetActive(active);
+    }
+
     [PunRPC]
     public void SetReadyRpc(bool isReady)
     {
@@ -101,6 +112,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         Cursor.lockState = CursorLockMode.None;
         readyPlayerCount = 0;
     }
+
+
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
