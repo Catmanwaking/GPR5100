@@ -14,7 +14,6 @@ public class PlayerMovementController : MonoBehaviourPun
     [SerializeField] private Transform groundCheckTransform;
     [SerializeField] private LayerMask groundLayer;
     [Header("PlayerOwned")]
-    [SerializeField] private float lookSensitivity;
     [SerializeField] private Camera playerCam;
 
     private bool isGrounded;
@@ -38,6 +37,14 @@ public class PlayerMovementController : MonoBehaviourPun
             Destroy(rigidBody);
             playerCam.enabled = false;
         }
+    }
+
+    private void OnEnable()
+    {
+        moveInput = Vector2.zero;
+        lookInput = Vector2.zero;
+        camRot = Vector3.zero;
+        playerRot = Vector3.zero;
     }
 
     private void Update()

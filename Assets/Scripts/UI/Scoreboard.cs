@@ -8,7 +8,6 @@ public class Scoreboard : MonoBehaviourPunCallbacks
 {
     [SerializeField] private TMP_Text[] Usernames_Text;
     [SerializeField] private TMP_Text[] Scores_Text;
-    [SerializeField] private TMP_Text[] Ping_Text;
 
     private Player[] players;
 
@@ -19,17 +18,16 @@ public class Scoreboard : MonoBehaviourPunCallbacks
 
     public void Initialize()
     {
+        players = PhotonNetwork.PlayerList;
+
         Hashtable customProps = new Hashtable
         {
             { "Health", 0.0f },
             { "Kills", 0 },
-            { "Deaths", 0 },
-            { "Ping", 0 }
+            { "Deaths", 0 }
         };
 
         PhotonNetwork.LocalPlayer.SetCustomProperties(customProps);
-
-        players = PhotonNetwork.PlayerList;
     }
 
     public void UpdateScoreboard()
@@ -39,16 +37,13 @@ public class Scoreboard : MonoBehaviourPunCallbacks
         {
             Player player = players[i];
             Hashtable playerProps = player.CustomProperties;
-
             Usernames_Text[i].text = player.NickName;
             Scores_Text[i].text = CreateScoreString(playerProps);
-            Ping_Text[i].text = playerProps["Ping"].ToString();
         }
         for (int i = players.Length; i < Usernames_Text.Length; i++)
         {
             Usernames_Text[i].text = string.Empty;
             Scores_Text[i].text = string.Empty;
-            Ping_Text[i].text = string.Empty;
         }
     }
 
@@ -62,6 +57,7 @@ public class Scoreboard : MonoBehaviourPunCallbacks
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
+        targetPlayer.CustomProperties = changedProps; //this maybe?
         UpdateScoreboard();
     }
 }

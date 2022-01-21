@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using Photon.Pun;
 
 public class PauseMenuUI : MenuUI
 {
@@ -31,7 +33,8 @@ public class PauseMenuUI : MenuUI
 
     public override void ExitGame()
     {
-        //return to menu
+        PhotonNetwork.LeaveRoom();
+        SceneManager.LoadScene(1); //MainMenuScene
     }
 
     private void OnEnable()

@@ -120,6 +120,13 @@ public abstract class WeaponController : MonoBehaviourPun
         isFiring = value.Get<float>() == 1.0f && (Time.time > nextShotTime || isAutoFire);
     }
 
+    private void OnReload()
+    {
+        //TODO reload anim
+        currentAmmo = ammoCapacity;
+        OnAmmoChange?.Invoke(currentAmmo);
+    }
+
     #endregion
 
     /// <summary>
@@ -131,6 +138,12 @@ public abstract class WeaponController : MonoBehaviourPun
     {
         RandomMuzzleRotation();
         animator.SetTrigger(fireHash);
+    }
+
+    public void ResetWeapon()
+    {
+        currentAmmo = ammoCapacity;
+        isFiring = false;
     }
 
     private void OnDrawGizmos()

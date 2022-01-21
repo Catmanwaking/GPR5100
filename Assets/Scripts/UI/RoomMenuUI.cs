@@ -2,14 +2,12 @@ using UnityEngine;
 using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
-using System.Collections;
 using UnityEngine.SceneManagement;
 
 public class RoomMenuUI : MonoBehaviour
 {
     [SerializeField] private TMP_Text hostName_Text;
     [SerializeField] private TMP_Text roomName_Text;
-    [SerializeField] private GameObject start_ButtonGO;
 
     // Start is called before the first frame update
     void Start()
@@ -29,14 +27,7 @@ public class RoomMenuUI : MonoBehaviour
 
     public void ReturnToMenu()
     {
-        StartCoroutine(Disconnect());
-    }
-
-    private IEnumerator Disconnect()
-    {
-        PhotonNetwork.Disconnect();
-        while (PhotonNetwork.IsConnected)
-            yield return null;
+        PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene(1); //MainMenuScene
     }
 }

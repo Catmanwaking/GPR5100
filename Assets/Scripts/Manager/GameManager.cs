@@ -1,6 +1,7 @@
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using System.Collections;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
@@ -9,10 +10,11 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject hudGO;
     [SerializeField] private GameObject menuGO;
     [SerializeField] private GameObject readyGO;
+    [SerializeField] private GameObject scoreGO;
 
     private GameObject localPlayerGO;
-    private int readyPlayerCount;
     private Player[] players;
+    private int readyPlayerCount;
 
     public static GameManager Instance { get; private set; }
 
@@ -28,13 +30,26 @@ public class GameManager : MonoBehaviourPunCallbacks
         localPlayerGO.SetActive(false);
     }
 
+    private IEnumerator RoundTimer()
+    {
+        yield return new WaitForSecondsRealtime(3.0f * 60.0f);
+        photonView.RPC(nameof(StopRoundRpc), RpcTarget.All);
+        PhotonNetwork.CurrentRoom.IsOpen = true;
+    }
+
     public void SetReady(bool isReady)
     {
         readyGO.SetActive(isReady);
         menuGO.SetActive(!isReady);
+        scoreGO.SetActive(!isReady);
         photonView.RPC(nameof(SetReadyRpc), RpcTarget.MasterClient, isReady);
     }
 
+    public void DisplayScore(bool display)
+    {
+        scoreGO.SetActive(display);
+    }
+    
     [PunRPC]
     public void SetReadyRpc(bool isReady)
     {
@@ -44,18 +59,23 @@ public class GameManager : MonoBehaviourPunCallbacks
             readyPlayerCount--;
 
         if(readyPlayerCount == players.Length)
+        {
             photonView.RPC(nameof(StartRoundRpc), RpcTarget.All);
-        //TODO stop round
+            PhotonNetwork.CurrentRoom.IsOpen = false;
+            StartCoroutine(RoundTimer());
+        }
     }
 
     [PunRPC]
     public void StartRoundRpc()
     {
         spawner.RespawnPlayer(localPlayerGO);
+
         hudGO.SetActive(true);
-        localPlayerGO.SetActive(true);
+        localPlayerGO.SetActive(true);        
         demoCameraGO.SetActive(false);
         readyGO.SetActive(false);
+
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -64,17 +84,20 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         hudGO.SetActive(false);
         localPlayerGO.SetActive(false);
+        scoreGO.SetActive(true);
         demoCameraGO.SetActive(true);
         menuGO.SetActive(true);
-        Cursor.lockState = CursorLockMode.Locked;
+
+        Cursor.lockState = CursorLockMode.None;
+        readyPlayerCount = 0;
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         players = PhotonNetwork.PlayerList;
     }
-    
-    public override void OnPlayerLeftRoom(Player newPlayer)
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         players = PhotonNetwork.PlayerList;
     }

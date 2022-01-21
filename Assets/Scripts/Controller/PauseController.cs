@@ -36,6 +36,12 @@ public class PauseController : MonoBehaviourPun
         StaticData.OnPauseChange?.Invoke();
     }
 
+    private void OnViewScore(InputValue value)
+    {
+        bool showScore = value.Get<float>() == 1.0f;
+        GameManager.Instance.DisplayScore(showScore);
+    }
+
     private void OnEnable()
     {
         StaticData.OnPauseChange += SetPaused;

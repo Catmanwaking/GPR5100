@@ -9,11 +9,18 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
     private Hashtable playerHashTable;
 
     public System.Action<float> OnHealthChanged;
-    public System.Action OnDeath;
+    public System.Action<GameObject> OnDeath;
 
     private bool isDead;
 
     private void Start()
+    {
+        ResetHealth();
+
+        MethodLinker.Instance.LinkToHudHealth(ref OnHealthChanged);
+    }
+
+    public void ResetHealth()
     {
         isDead = false;
         if (!photonView.IsMine)
@@ -22,8 +29,6 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
         playerHashTable = photonView.Controller.CustomProperties;
         playerHashTable["Health"] = maxHealth;
         photonView.Controller.SetCustomProperties(playerHashTable);
-
-        MethodLinker.Instance.LinkToHudHealth(ref OnHealthChanged);
     }
 
     public bool TakeDamage(float damage)
@@ -58,10 +63,12 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
             //TODO damage sound, death check 
             if(health <= 0.0f)
             {
+                Debug.Log("player died");
                 int deaths = (int)playerHashTable["Deaths"];
                 playerHashTable["Deaths"] = deaths++;
+                playerHashTable["Health"] = 100.0f;
                 photonView.Controller.SetCustomProperties(playerHashTable);
-                OnDeath?.Invoke();
+                OnDeath?.Invoke(this.gameObject);
             }
         }
     }

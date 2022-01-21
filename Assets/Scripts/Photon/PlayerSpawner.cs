@@ -11,7 +11,9 @@ public class PlayerSpawner
 
     public GameObject SpawnPlayerOnServer()
     {
-        return PhotonNetwork.Instantiate(playerPrefab.name, Vector3.zero, Quaternion.identity);
+        GameObject player = PhotonNetwork.Instantiate(playerPrefab.name, Vector3.zero, Quaternion.identity);
+        player.GetComponent<PlayerHealth>().OnDeath += RespawnPlayer;
+        return player;
     }
 
     public void RespawnPlayer(GameObject player)
@@ -19,6 +21,10 @@ public class PlayerSpawner
         int spawnIndex = UnityEngine.Random.Range(0, spawnPositions.Length);
         player.transform.position = spawnPositions[spawnIndex].position;
         player.transform.rotation = spawnPositions[spawnIndex].rotation;
+
+        player.GetComponent<PlayerHealth>().ResetHealth();
+        player.GetComponentInChildren<WeaponController>().ResetWeapon();
+
         player.SetActive(true);
     }
 }
