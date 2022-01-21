@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] private Scoreboard scoreboard;
 
     private GameObject localPlayerGO;
-    public Player[] players;
+    private Player[] players;
     private int readyPlayerCount;
 
     public static GameManager Instance { get; private set; }
@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void Start()
     {
         players = PhotonNetwork.PlayerList;
+        scoreboard.UpdateScoreboard(players);
         localPlayerGO = spawner.SpawnPlayerOnServer();
         localPlayerGO.SetActive(false);
     }
@@ -96,12 +97,12 @@ public class GameManager : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         players = PhotonNetwork.PlayerList;
-        scoreboard.UpdateScoreboard();
+        scoreboard.UpdateScoreboard(players);
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         players = PhotonNetwork.PlayerList;
-        scoreboard.UpdateScoreboard();
+        scoreboard.UpdateScoreboard(players);
     }
 }

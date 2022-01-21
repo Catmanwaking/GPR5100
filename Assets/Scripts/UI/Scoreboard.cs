@@ -21,16 +21,15 @@ public class Scoreboard : MonoBehaviourPunCallbacks
         PhotonNetwork.LocalPlayer.SetCustomProperties(customProps);
     }
 
-    public void UpdateScoreboard()
+    public void UpdateScoreboard(Player[] players)
     {
-        Player[] players = GameManager.Instance.players;
         int playerCount = players.Length;
         for (int i = 0; i < playerCount; i++)
         {
             Player player = players[i];
-            Hashtable playerProps = player.CustomProperties;
             Usernames_Text[i].text = player.NickName;
-            Scores_Text[i].text = CreateScoreString(playerProps);
+            //Hashtable playerProps = player.CustomProperties;
+            //Scores_Text[i].text = CreateScoreString(playerProps);
         }
         for (int i = players.Length; i < Usernames_Text.Length; i++)
         {
