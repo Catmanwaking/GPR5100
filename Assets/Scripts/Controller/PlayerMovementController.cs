@@ -34,6 +34,7 @@ public class PlayerMovementController : MonoBehaviourPun
         if (!photonView.IsMine)
         {
             Destroy(GetComponent<PlayerInput>());
+            Destroy(playerCam.GetComponent<AudioListener>());
             Destroy(rigidBody);
             playerCam.enabled = false;
         }
