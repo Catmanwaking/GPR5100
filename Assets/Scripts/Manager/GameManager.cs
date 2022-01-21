@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject readyGO;
     [SerializeField] private GameObject scoreGO;
     [SerializeField] private Scoreboard scoreboard;
+    [SerializeField] private RoomMenuUI roomMenu;
 
     private GameObject localPlayerGO;
     private Player[] players;
@@ -28,6 +29,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         players = PhotonNetwork.PlayerList;
         scoreboard.UpdateScoreboard(players);
+        roomMenu.SetMasterClient(players);
         localPlayerGO = spawner.SpawnPlayerOnServer();
         localPlayerGO.SetActive(false);
     }
@@ -51,6 +53,11 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         scoreGO.SetActive(display);
     }
+
+    public void SetRespawnCam(bool isRespawning)
+    {
+        demoCameraGO.SetActive(isRespawning);
+    }
     
     [PunRPC]
     public void SetReadyRpc(bool isReady)
@@ -72,6 +79,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void StartRoundRpc()
     {
         spawner.RespawnPlayer(localPlayerGO);
+        localPlayerGO.SetActive(true);
 
         hudGO.SetActive(true);
         localPlayerGO.SetActive(true);        
@@ -104,5 +112,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         players = PhotonNetwork.PlayerList;
         scoreboard.UpdateScoreboard(players);
+        roomMenu.SetMasterClient(players);
     }
 }

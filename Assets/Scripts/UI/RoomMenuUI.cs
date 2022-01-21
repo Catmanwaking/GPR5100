@@ -9,11 +9,9 @@ public class RoomMenuUI : MonoBehaviour
     [SerializeField] private TMP_Text hostName_Text;
     [SerializeField] private TMP_Text roomName_Text;
 
-    // Start is called before the first frame update
-    void Start()
+    public void SetMasterClient(Player[] players)
     {
-        roomName_Text.text = PhotonNetwork.CurrentRoom.Name;
-        foreach (Player player in PhotonNetwork.PlayerList)
+        foreach (Player player in players)
         {
             if (player.IsMasterClient)
                 hostName_Text.text = player.NickName;

@@ -24,7 +24,5 @@ public class PlayerSpawner
 
         player.GetComponent<PlayerHealth>().ResetHealth();
         player.GetComponentInChildren<WeaponController>().ResetWeapon();
-
-        player.SetActive(true);
     }
 }
