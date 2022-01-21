@@ -11,7 +11,7 @@ class HitScanner : WeaponController
     protected override void Shoot()
     {
         SetShotValues();        
-        //audioHandler.PlaySound(gunShotClip, 0.4f);
+        audioController.PlaySound(gunShotClip, 0.4f);
         RandomMuzzleRotation();
         HitScan();       
         deviation.IncreaseDeviation();

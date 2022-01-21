@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 806881763274696552}
   - component: {fileID: 400438401986929892}
   - component: {fileID: 9188435406559676462}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: MuzzleFlashV
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 6005230741801946716}
   - component: {fileID: 8025715310104833085}
   - component: {fileID: 1551118605893766528}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -118,7 +118,7 @@ Transform:
   - {fileID: 7371753759147971958}
   - {fileID: 7326841123592340356}
   m_Father: {fileID: 3463388542796161598}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &8171423463576226535
 Animator:
@@ -156,14 +156,14 @@ MonoBehaviour:
   ammoCapacity: 30
   ammoUsePerShot: 1
   bulletsPerShot: 1
-  shotsPerSecond: 15
-  damage: 2
+  shotsPerSecond: 12
+  damage: 15
   range: 100
   deviation:
-    minDeviation: 0.03
-    maxDeviation: 0.2
-    deviationIncreasePerShot: 0.02
-    deviationDecreasePerSecond: 0.15
+    minDeviation: 0.01
+    maxDeviation: 0.1
+    deviationIncreasePerShot: 0.015
+    deviationDecreasePerSecond: 0.12
   hitLayers:
     serializedVersion: 2
     m_Bits: 128
@@ -289,7 +289,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2297314987727852752}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: MuzzleFlash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -528,6 +528,7 @@ GameObject:
   - component: {fileID: 3463388542796161584}
   - component: {fileID: 3463388542796161585}
   - component: {fileID: 5520279951612096510}
+  - component: {fileID: 7087370291497951452}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -547,6 +548,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 7473576051446717710}
   - {fileID: 1712743800882148336}
   m_Father: {fileID: 3463388542189769529}
   m_RootOrder: 0
@@ -582,7 +584,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 439
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -610,7 +612,8 @@ MonoBehaviour:
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
-  m_Cameras: []
+  m_Cameras:
+  - {fileID: 2514669690411873966}
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
@@ -643,6 +646,14 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!81 &7087370291497951452
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3463388542796161599}
+  m_Enabled: 1
 --- !u!1 &3463388543610659052
 GameObject:
   m_ObjectHideFlags: 0
@@ -757,6 +768,115 @@ Transform:
   m_Father: {fileID: 3463388542189769529}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4124487782223696065
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7473576051446717710}
+  - component: {fileID: 2514669690411873966}
+  - component: {fileID: 992907773022418839}
+  m_Layer: 0
+  m_Name: WeaponCam
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7473576051446717710
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4124487782223696065}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3463388542796161598}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!20 &2514669690411873966
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4124487782223696065}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 4
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_FocalLength: 50
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.01
+  far clip plane: 1000
+  field of view: 90
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: -1
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 512
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!114 &992907773022418839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4124487782223696065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 1
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!1 &4718919312484028948
 GameObject:
   m_ObjectHideFlags: 0
@@ -768,7 +888,7 @@ GameObject:
   - component: {fileID: 3541548770594755097}
   - component: {fileID: 7827026756925261608}
   - component: {fileID: 3997871131603796784}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: MuzzleFlashH
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -851,7 +971,7 @@ GameObject:
   - component: {fileID: 5478253923320027875}
   - component: {fileID: 1521484265629861297}
   - component: {fileID: 1810018990193515820}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -966,7 +1086,7 @@ GameObject:
   - component: {fileID: 7326841123592340356}
   - component: {fileID: 204837647481471123}
   - component: {fileID: 2000254161969256597}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1047,7 +1167,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7371753759147971958}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1082,7 +1202,7 @@ GameObject:
   - component: {fileID: 7796698201769625255}
   - component: {fileID: 3994064950783537497}
   - component: {fileID: 4500214281294205596}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: MuzzleFlashF
   m_TagString: Untagged
   m_Icon: {fileID: 0}

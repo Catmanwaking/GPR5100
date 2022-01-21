@@ -58,6 +58,7 @@ public abstract class WeaponController : MonoBehaviourPun
     private void Start()
     {
         fireHash = Animator.StringToHash("Fire");
+        reloadHash = Animator.StringToHash("Reload");
         if(photonView.IsMine)
         {
             isFiring = false;
@@ -99,6 +100,14 @@ public abstract class WeaponController : MonoBehaviourPun
         }
     }
 
+    public void SetReloaded()
+    {
+        currentAmmo = ammoCapacity;
+        canFire = true;
+        audioController.PlaySound(reloadClip, 0.4f);
+        OnAmmoChange?.Invoke(currentAmmo);
+    }
+
     protected void PlayParticleSystem(RaycastHit hit)
     {
         //ParticleSystem pSystem = sparkObjectPool.GetPooledObject();
@@ -122,9 +131,12 @@ public abstract class WeaponController : MonoBehaviourPun
 
     private void OnReload()
     {
-        //TODO reload anim
-        currentAmmo = ammoCapacity;
-        OnAmmoChange?.Invoke(currentAmmo);
+        if(currentAmmo < ammoCapacity)
+        {
+            isReloading = true;
+            photonView.RPC("ReloadRpc", RpcTarget.Others);
+            animator.SetTrigger(reloadHash);
+        }
     }
 
     #endregion
@@ -138,12 +150,19 @@ public abstract class WeaponController : MonoBehaviourPun
     {
         RandomMuzzleRotation();
         animator.SetTrigger(fireHash);
+        audioController.PlaySound(gunShotClip, 0.4f);
+    }
+
+    public void ReloadRpcLink()
+    {
+        animator.SetTrigger(reloadHash);
     }
 
     public void ResetWeapon()
     {
         currentAmmo = ammoCapacity;
         isFiring = false;
+        canFire = true;
     }
 
     private void OnDrawGizmos()

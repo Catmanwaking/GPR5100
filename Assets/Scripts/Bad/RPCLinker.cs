@@ -10,4 +10,10 @@ public class RPCLinker : MonoBehaviour
     {
         weapon.ShootRpcLink();
     }
+
+    [PunRPC]
+    private void ReloadRpc()
+    {
+        weapon.ReloadRpcLink();
+    }
 }
