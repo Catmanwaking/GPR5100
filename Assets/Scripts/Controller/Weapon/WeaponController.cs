@@ -73,6 +73,10 @@ public abstract class WeaponController : MonoBehaviourPun
             MethodLinker.Instance.LinkToHudCrosshair(ref deviation.OnDeviationChange);
             deviation.ResetDeviation();
         }
+        else
+        {
+            GetComponentInChildren<MeshFilter>().gameObject.layer = 1 << 0;
+        }
     }
 
     private void Update()
