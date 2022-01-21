@@ -11,7 +11,7 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
     public System.Action<float> OnHealthChanged;
     public System.Action<GameObject> OnDeath;
 
-    private bool isDead;
+    private float currentHealth;
 
     private void Start()
     {
@@ -22,48 +22,24 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
 
     public void ResetHealth()
     {
-        isDead = false;
-        if (!photonView.IsMine)
-            return;
-
-        playerHashTable = photonView.Controller.CustomProperties;
-        playerHashTable["Health"] = maxHealth;
-        photonView.Controller.SetCustomProperties(playerHashTable);
+        currentHealth = maxHealth;
+        OnHealthChanged?.Invoke(currentHealth);
     }
 
     public void TakeDamage(float damage)
     {
-        if (isDead)
-            return;
-        float health = (float)playerHashTable["Health"];
-
-        health -= damage;
-        if (health <= 0.0f)
-        {
-            health = 0.0f;
-            isDead = true;
-        }
-
-        //playerHashTable = photonView.Controller.CustomProperties; //TODO check if needed
-        playerHashTable["Health"] = health;
-        photonView.Controller.SetCustomProperties(playerHashTable);
+        photonView.RPC(nameof(TakeDamageRpc), photonView.Controller, damage);
     }
 
-    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
-    {
-        if (photonView.Controller == targetPlayer)
+    [PunRPC]
+    public void TakeDamageRpc(float damage)
+    { 
+        currentHealth -= damage;
+        if (currentHealth <= 0.0f)
         {
-            playerHashTable = changedProps;
-            float health = (float)playerHashTable["Health"];
-            OnHealthChanged?.Invoke(health);
-            //TODO damage sound, death check 
-            if(health <= 0.0f)
-            {
-                Debug.Log("player died");
-                playerHashTable["Health"] = 100.0f;
-                photonView.Controller.SetCustomProperties(playerHashTable);
-                OnDeath?.Invoke(this.gameObject);
-            }
+            currentHealth = 0.0f;
+            OnDeath?.Invoke(this.gameObject);
         }
+        OnHealthChanged?.Invoke(currentHealth);
     }
 }
