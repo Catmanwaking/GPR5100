@@ -32,16 +32,6 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
         photonView.RPC(nameof(TakeDamageRpc), photonView.Controller, damage);
     }
 
-    private IEnumerator Die()
-    {
-        this.gameObject.SetActive(false);
-        yield return new WaitForSecondsRealtime(1.0f);
-        OnDeath?.Invoke(this.gameObject);
-        yield return new WaitForSecondsRealtime(4.0f);
-        this.gameObject.SetActive(false);
-        GameManager.Instance.SetRespawnCam(false);
-    }
-
     [PunRPC]
     public void TakeDamageRpc(float damage)
     { 
@@ -49,7 +39,7 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
         if (currentHealth <= 0.0f)
         {
             currentHealth = 0.0f;
-            StartCoroutine(Die());
+            OnDeath?.Invoke(this.gameObject);
         }
         OnHealthChanged?.Invoke(currentHealth);
     }

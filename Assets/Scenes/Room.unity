@@ -2425,12 +2425,14 @@ MonoBehaviour:
     - {fileID: 1739387274}
     - {fileID: 1033244779}
     - {fileID: 86442907}
+    respawnTime: 5
   demoCameraGO: {fileID: 497467050}
   hudGO: {fileID: 1174088215}
   menuGO: {fileID: 1903084542}
   readyGO: {fileID: 616240486}
   scoreGO: {fileID: 1774537611}
   scoreboard: {fileID: 3263975905032526917}
+  roomMenu: {fileID: 1903084547}
 --- !u!4 &225265913
 Transform:
   m_ObjectHideFlags: 0
