@@ -11,9 +11,10 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject menuGO;
     [SerializeField] private GameObject readyGO;
     [SerializeField] private GameObject scoreGO;
+    [SerializeField] private Scoreboard scoreboard;
 
     private GameObject localPlayerGO;
-    private Player[] players;
+    public Player[] players;
     private int readyPlayerCount;
 
     public static GameManager Instance { get; private set; }
@@ -53,7 +54,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void SetReadyRpc(bool isReady)
     {
-        if (isReady)
+        if (isReady) //problematic when player leaves during ready phase
             readyPlayerCount++;
         else
             readyPlayerCount--;
@@ -95,10 +96,12 @@ public class GameManager : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         players = PhotonNetwork.PlayerList;
+        scoreboard.UpdateScoreboard();
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         players = PhotonNetwork.PlayerList;
+        scoreboard.UpdateScoreboard();
     }
 }

@@ -9,17 +9,8 @@ public class Scoreboard : MonoBehaviourPunCallbacks
     [SerializeField] private TMP_Text[] Usernames_Text;
     [SerializeField] private TMP_Text[] Scores_Text;
 
-    private Player[] players;
-
-    private void Start()
-    {
-        Initialize();
-    }
-
     public void Initialize()
     {
-        players = PhotonNetwork.PlayerList;
-
         Hashtable customProps = new Hashtable
         {
             { "Health", 0.0f },
@@ -32,6 +23,7 @@ public class Scoreboard : MonoBehaviourPunCallbacks
 
     public void UpdateScoreboard()
     {
+        Player[] players = GameManager.Instance.players;
         int playerCount = players.Length;
         for (int i = 0; i < playerCount; i++)
         {
@@ -53,11 +45,5 @@ public class Scoreboard : MonoBehaviourPunCallbacks
         int deaths = (int)playerProps["Deaths"];
         string kdString = $"{kills,3}/{deaths,-3}";
         return kdString;
-    }
-
-    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
-    {
-        targetPlayer.CustomProperties = changedProps; //this maybe?
-        UpdateScoreboard();
     }
 }

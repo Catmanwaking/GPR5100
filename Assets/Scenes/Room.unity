@@ -2263,6 +2263,7 @@ MonoBehaviour:
   menuGO: {fileID: 1903084542}
   readyGO: {fileID: 616240486}
   scoreGO: {fileID: 1774537611}
+  scoreboard: {fileID: 3263975905032526917}
 --- !u!4 &225265913
 Transform:
   m_ObjectHideFlags: 0
